@@ -49,6 +49,14 @@ EOF
 
 function configure_gdal_options() {
     # Options common to all supported platforms.
+    #
+    # with_sqlite3 is intentionally left at the recipe's default (True):
+    # proj is an unconditional GDAL dependency and always pulls in sqlite3,
+    # but the recipe only sets the SQLite3_HAS_COLUMN_METADATA/HAS_RTREE/etc.
+    # CMake cache variables GDAL's CheckDependentLibraries.cmake expects when
+    # with_sqlite3=True. Disabling it here caused a
+    # "missing SQLite3_HAS_COLUMN_METADATA" CMake configure error even
+    # though sqlite3 was still present in the graph via proj.
     GDAL_OPTIONS=(
         "-o" "&:shared=True"
         "-o" "&:with_arrow=False"
@@ -63,7 +71,6 @@ function configure_gdal_options() {
         "-o" "&:with_libarchive=False"
         "-o" "&:with_qhull=False"
         "-o" "&:with_shapelib=False"
-        "-o" "&:with_sqlite3=False"
         '--test-folder='
     )
 

@@ -336,6 +336,12 @@ class GdalConan(ConanFile):
 
     def generate(self):
         tc = CMakeToolchain(self)
+        # Force libraries into 'lib' so Conan package layout matches cpp_info.libdirs.
+        # Otherwise, GNUInstallDirs may use 'lib64' on RHEL/CentOS and Conan
+        # CMakeDeps can't find the GDAL library.
+        tc.cache_variables["CMAKE_INSTALL_LIBDIR"] = "lib"
+        tc.cache_variables["CMAKE_INSTALL_BINDIR"] = "bin"
+        tc.cache_variables["CMAKE_INSTALL_INCLUDEDIR"] = "include"
         tc.cache_variables["GDAL_OBJECT_LIBRARIES_POSITION_INDEPENDENT_CODE"] = self.options.get_safe("fPIC", True)
         tc.cache_variables["GDAL_SET_INSTALL_RELATIVE_RPATH"] = True
 

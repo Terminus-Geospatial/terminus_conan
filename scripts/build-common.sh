@@ -88,7 +88,7 @@ function conan_create() {
     conan create "${recipe_path}" \
         --version "${version}" \
         -s build_type="${build_type}" \
-        -s compiler.cppstd=17 \
+        -s compiler.cppstd=23 \
         -o "boost/*:shared=True" \
         "$@" \
         --build=missing
@@ -99,8 +99,15 @@ function upload_package() {
     package_ref="$1"
 
     if ${UPLOAD}; then
-        log_info "Uploading ${package_ref} to ${CONAN_REMOTE:-terminus-conan}"
-        conan upload "${package_ref}" -r "${CONAN_REMOTE:-terminus-conan}" -c
+        # Upload every package in the local cache, not just ${package_ref}.
+        # A "conan create" build populates the cache with every dependency
+        # it had to build from source (they aren't necessarily available as
+        # prebuilt binaries on conancenter for our settings/options). If we
+        # only uploaded the top-level package, those dependencies would need
+        # to be rebuilt from scratch on every subsequent Docker build (the
+        # build container's Conan cache is ephemeral).
+        log_info "Uploading ${package_ref} and its dependencies to ${CONAN_REMOTE:-terminus-conan}"
+        conan upload "*" -r "${CONAN_REMOTE:-terminus-conan}" -c
     fi
 }
 

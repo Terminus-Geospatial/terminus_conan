@@ -13,8 +13,8 @@
 #    Author:  Marvin Smith
 #    Date:    8/15/2026
 #
-#    Purpose: Build the vendored OpenCV and GDAL Conan packages inside the
-#              terminus-build-centos10 Docker image.
+#    Purpose: Build the vendored OpenCV and GDAL Conan packages
+#              inside the terminus-build-centos10 Docker image.
 
 set -euo pipefail
 

@@ -83,20 +83,21 @@ function configure_opencv_options() {
             # libpng/[>=1.6 <2] range resolved to 1.6.58 elsewhere in the graph.
             # Build a headless highgui for now and revisit Qt6 later.
             # TODO: Switch to Qt6 once a stable conan-center Qt6 recipe is available.
-            # ffmpeg's with_vaapi/with_vdpau defaults require libva-devel and
-            # libvdpau-devel, which the CentOS Stream 10 build image installs
-            # via CRB. with_xcb/with_xlib (X11 screen-grab support, not needed
-            # headless) and pulseaudio's with_x11 (pulled in via
-            # ffmpeg's with_pulse) are disabled because they pull
-            # xorg/system, which requests libXScrnSaver-devel -- a package no
-            # longer available on EL10.
+            # Use ffmpeg's VAAPI hardware acceleration through DRM/GBM instead
+            # of X11.  ffmpeg 7.1.5 can create VAAPI devices via libdrm,
+            # avoiding the entire xorg/system dependency chain and the obsolete
+            # libXScrnSaver-devel package issue on EL10.
             OPENCV_OPTIONS+=(
                 "-o" "&:with_qt=False"
                 "-o" "&:with_gtk=False"
                 "-o" "&:with_wayland=False"
+                "-o" "ffmpeg/*:with_vaapi=True"
+                "-o" "ffmpeg/*:with_vdpau=False"
                 "-o" "ffmpeg/*:with_xcb=False"
                 "-o" "ffmpeg/*:with_xlib=False"
+                "-o" "ffmpeg/*:with_libdrm=True"
                 "-o" "pulseaudio/*:with_x11=False"
+                "-o" "pulseaudio/*:with_wayland=False"
             )
             ;;
         windows)

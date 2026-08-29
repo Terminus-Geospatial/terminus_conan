@@ -185,7 +185,7 @@ class OpenCVConan(ConanFile):
         # highgui module options
         "with_gtk": False,
         "with_qt": False,
-        "with_wayland": True,
+        "with_wayland": False,
         # imgcodecs module options
         "with_avif": False,
         "with_jpeg": "libjpeg",
@@ -206,6 +206,13 @@ class OpenCVConan(ConanFile):
         "with_quirc": True,
         # videoio module options
         "with_ffmpeg": True,
+        "ffmpeg/*:with_vaapi": True,
+        "ffmpeg/*:with_vdpau": False,
+        "ffmpeg/*:with_xcb": False,
+        "ffmpeg/*:with_xlib": False,
+        "ffmpeg/*:with_libdrm": True,
+        "pulseaudio/*:with_x11": False,
+        "pulseaudio/*:with_wayland": False,
         "with_v4l": False,
         # text module options
         "with_tesseract": True,
@@ -1089,7 +1096,7 @@ class OpenCVConan(ConanFile):
             self.requires("quirc/1.2")
         # videoio module dependencies
         if self.options.get_safe("with_ffmpeg"):
-            self.requires("ffmpeg/[>=4.4.4 <8]")
+            self.requires("ffmpeg/7.1.5")
         # freetype module dependencies
         if self.options.freetype:
             self.requires("freetype/[>=2.13.2 <3]")
