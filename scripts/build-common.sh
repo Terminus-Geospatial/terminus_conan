@@ -90,6 +90,7 @@ function conan_create() {
         -s build_type="${build_type}" \
         -s compiler.cppstd=23 \
         -o "boost/*:shared=True" \
+        -c tools.cmake.cmaketoolchain:extra_variables='{"CMAKE_POLICY_VERSION_MINIMUM":"3.5"}' \
         "$@" \
         --build=missing
 }

@@ -55,9 +55,6 @@ function configure_opencv_options() {
     OPENCV_OPTIONS=(
         "-o" "&:shared=True"
         "-o" "&:text=True"
-        "-o" "&:photo=False"
-        "-o" "&:stitching=False"
-        "-o" "&:gapi=False"
         "-o" "&:with_openexr=False"
         "-o" "&:with_webp=False"
         "-o" "&:with_jpeg2000=False"

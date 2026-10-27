@@ -4,6 +4,18 @@ All notable changes to `terminus_conan` will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.1.0]
+
+### Changed
+
+- `recipies/gdal/build-gdal.sh` now defers to the recipe's `default_options` for the heavy feature set instead of disabling Arrow, curl, expat, GEOS, libdeflate, libarchive, qhull, and other drivers one by one. The script only overrides `shared=True` and skips the test package, producing a feature-rich GDAL by default.
+- `recipies/opencv/build-opencv.sh` re-enables `photo`, `stitching`, and `gapi`, matching the recipe's mandatory-option resolution so the packaged component metadata (`opencv_photo`, `opencv_stitching`, `opencv_gapi`) always has libraries behind it.
+- `scripts/build-common.sh`'s `conan_create()` now passes `tools.cmake.cmaketoolchain:extra_variables={"CMAKE_POLICY_VERSION_MINIMUM":"3.5"}` so older vendored recipes configure cleanly under newer CMake.
+
+### Fixed
+
+- `.gitignore` now excludes `.DS_Store` and `.vscode/`.
+
 ## [0.0.3]
 
 ### Changed

@@ -57,20 +57,11 @@ function configure_gdal_options() {
     # with_sqlite3=True. Disabling it here caused a
     # "missing SQLite3_HAS_COLUMN_METADATA" CMake configure error even
     # though sqlite3 was still present in the graph via proj.
+    # The recipe's default_options define the heavy GDAL configuration.
+    # We only override shared=True (the recipe defaults to static) and
+    # skip the test-package step.
     GDAL_OPTIONS=(
         "-o" "&:shared=True"
-        "-o" "&:with_arrow=False"
-        "-o" "&:with_curl=False"
-        "-o" "&:with_expat=False"
-        "-o" "&:with_geos=False"
-        "-o" "&:with_gif=False"
-        "-o" "&:with_libdeflate=False"
-        "-o" "&:with_libiconv=False"
-        "-o" "&:with_lerc=False"
-        "-o" "&:with_libcsf=False"
-        "-o" "&:with_libarchive=False"
-        "-o" "&:with_qhull=False"
-        "-o" "&:with_shapelib=False"
         '--test-folder='
     )
 
