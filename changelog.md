@@ -4,6 +4,12 @@ All notable changes to `terminus_conan` will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.1.1] - 2026-11-08
+
+### Added
+
+- Adopted shared Devin rule templates from `terminus_setup` (`conan`, `bash`) under `.devin/rules/`.
+
 ## [0.1.0]
 
 ### Changed
